@@ -3,14 +3,11 @@ session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
 intents:
-  - ask_lower_stress
   - greet
-  - ask_eat_healthy
   - goodbye
   - affirm
   - deny
   - bot_challenge
-  - ask_exercise
   - inform
   - out_of_scope
   - thankyou
