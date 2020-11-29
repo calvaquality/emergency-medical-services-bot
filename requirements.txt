@@ -2,3 +2,4 @@ rasa
 deepspeech
 sounddevice
 scipy
+SoundFile
