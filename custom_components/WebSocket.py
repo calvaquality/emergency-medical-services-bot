@@ -1,18 +1,54 @@
 import logging
+import time
+import urllib
 import uuid
-import wave
-from typing import Optional, Text
-from urllib import request
+from typing import Optional, Text, Any
 
-import numpy
-from deepspeech import Model
 from rasa.core.channels.channel import InputChannel
-from rasa.core.channels.channel import UserMessage
-from sanic import response
+from rasa.core.channels.channel import UserMessage, OutputChannel
+from sanic import Blueprint, response
 from socketio import AsyncServer
 
-from connector.SocketBlueprint import SocketBlueprint
-from connector.SocketIOOutput import SocketIOOutput
+logger = logging.getLogger(__name__)
+
+
+class SocketBlueprint(Blueprint):
+    def __init__(self, sio: AsyncServer, socketio_path, *args, **kwargs):
+        self.sio = sio
+        self.socketio_path = socketio_path
+        super(SocketBlueprint, self).__init__(*args, **kwargs)
+
+    def register(self, app, options):
+        self.sio.attach(app, self.socketio_path)
+        super(SocketBlueprint, self).register(app, options)
+
+
+class SocketIOOutput(OutputChannel):
+
+    @classmethod
+    def name(cls):
+        return "socketio"
+
+    def __init__(self, sio, sid, bot_message_evt, message):
+        self.sio = sio
+        self.sid = sid
+        self.bot_message_evt = bot_message_evt
+        self.message = message
+
+    async def _send_audio_message(self, socket_id, response, **kwargs: Any):
+        # type: (Text, Any) -> None
+        """Sends a message to the recipient using the bot event."""
+
+        ts = time.time()
+        OUT_FILE = str(ts) + '.wav'
+        link = "http://localhost:8888/" + OUT_FILE
+
+        await self.sio.emit(self.bot_message_evt, {'text': 'Hello World', "link": link}, room=socket_id)
+
+    async def send_text_message(self, recipient_id: Text, message: Text, **kwargs: Any) -> None:
+        """Send a message through this channel."""
+
+        await self._send_audio_message(self.sid, {"text": message})
 
 
 class SocketIOInput(InputChannel):
@@ -44,9 +80,6 @@ class SocketIOInput(InputChannel):
         self.user_message_evt = user_message_evt
         self.namespace = namespace
         self.socketio_path = socketio_path
-        self.logger = logging.getLogger(__name__)
-        self.speech_to_text_model = Model('stt/deepspeech-0.9.1-models.pbmm')
-        self.speech_to_text_model.enableExternalScorer('stt/deepspeech-0.9.1-models.scorer')
 
     def blueprint(self, on_new_message):
         sio = AsyncServer(async_mode="sanic")
@@ -60,13 +93,13 @@ class SocketIOInput(InputChannel):
 
         @sio.on('connect', namespace=self.namespace)
         async def connect(sid, environ):
-            self.logger.debug("User {} connected to socketIO endpoint.".format(sid))
+            logger.debug("User {} connected to socketIO endpoint.".format(sid))
             print('Connected!')
 
         @sio.on('disconnect', namespace=self.namespace)
         async def disconnect(sid):
-            self.logger.debug("User {} disconnected from socketIO endpoint."
-                              "".format(sid))
+            logger.debug("User {} disconnected from socketIO endpoint."
+                         "".format(sid))
 
         @sio.on('session_request', namespace=self.namespace)
         async def session_request(sid, data):
@@ -77,8 +110,8 @@ class SocketIOInput(InputChannel):
             if 'session_id' not in data or data['session_id'] is None:
                 data['session_id'] = uuid.uuid4().hex
             await sio.emit("session_confirm", data['session_id'], room=sid)
-            self.logger.debug("User {} connected to socketIO endpoint."
-                              "".format(sid))
+            logger.debug("User {} connected to socketIO endpoint."
+                         "".format(sid))
 
         @sio.on('user_uttered', namespace=self.namespace)
         async def handle_message(sid, data):
@@ -90,16 +123,9 @@ class SocketIOInput(InputChannel):
                 ##receive audio
                 received_file = 'output_' + sid + '.wav'
 
-                request.urlretrieve(data['message'], received_file)
+                urllib.request.urlretrieve(data['message'], received_file)
 
-                # fs, audio = wav.read("output_{0}.wav".format(sid))
-                input_audio_file = wave.open("output_{0}.wav".format(sid), 'rb')
-                converted_audio_to_bytes = numpy.frombuffer(input_audio_file.readframes(input_audio_file.getnframes()),
-                                                            numpy.int16)
-                input_audio_file.close()
-                message = self.speech_to_text_model.stt(converted_audio_to_bytes)
-
-                await sio.emit(self.user_message_evt, {"text": message}, room=sid)
+                await sio.emit(self.user_message_evt, {"text": 'Hello Paris'}, room=sid)
 
             message_rasa = UserMessage(message, output_channel, sid,
                                        input_channel=self.name())
