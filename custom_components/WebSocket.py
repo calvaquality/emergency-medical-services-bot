@@ -1,13 +1,22 @@
 import logging
 import time
-import urllib
 import uuid
-from typing import Optional, Text, Any
+import wave
+from typing import Any
+from typing import Optional, Text
+from urllib import request
 
+import numpy
+from deepspeech import Model
 from rasa.core.channels.channel import InputChannel
-from rasa.core.channels.channel import UserMessage, OutputChannel
-from sanic import Blueprint, response
+from rasa.core.channels.channel import OutputChannel
+from rasa.core.channels.channel import UserMessage
+from sanic import Blueprint
+from sanic import response
 from socketio import AsyncServer
+
+from custom_components.SocketBlueprint import SocketBlueprint
+from custom_components.SocketIOOutput import SocketIOOutput
 
 logger = logging.getLogger(__name__)
 
@@ -80,6 +89,8 @@ class SocketIOInput(InputChannel):
         self.user_message_evt = user_message_evt
         self.namespace = namespace
         self.socketio_path = socketio_path
+        self.speech_to_text_model = Model('../stt/deepspeech-0.9.1-models.pbmm')
+        self.speech_to_text_model.enableExternalScorer('../stt/deepspeech-0.9.1-models.scorer')
 
     def blueprint(self, on_new_message):
         sio = AsyncServer(async_mode="sanic", logger=True, cors_allowed_origins='*')
@@ -123,9 +134,16 @@ class SocketIOInput(InputChannel):
                 ##receive audio
                 received_file = 'output_' + sid + '.wav'
 
-                urllib.request.urlretrieve(data['message'], received_file)
+                request.urlretrieve(data['message'], received_file)
 
-                await sio.emit(self.user_message_evt, {"text": 'Hello Paris'}, room=sid)
+                # fs, audio = wav.read("output_{0}.wav".format(sid))
+                input_audio_file = wave.open("output_{0}.wav".format(sid), 'rb')
+                converted_audio_to_bytes = numpy.frombuffer(input_audio_file.readframes(input_audio_file.getnframes()),
+                                                            numpy.int16)
+                input_audio_file.close()
+                message = self.speech_to_text_model.stt(converted_audio_to_bytes)
+
+                await sio.emit(self.user_message_evt, {"text": message}, room=sid)
 
             message_rasa = UserMessage(message, output_channel, sid,
                                        input_channel=self.name())
