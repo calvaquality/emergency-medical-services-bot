@@ -8,5 +8,8 @@ export PYTHONPATH=/Users/{your_home_folder}/{url_to_project}/custom_components/:
 
 ## Start bot
 rasa run --cors "*" --debug --enable-api -p 5005
+
+
+## Start HTTP server for serving AUDIO files from bot to browser
 python3 -m http.server 8888
 
