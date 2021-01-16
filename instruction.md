@@ -19,7 +19,7 @@ rasa train
 
 ## Append PYTHONPATH env variable with your custom Connector
 
-export PYTHONPATH=/Users/{your_home_folder}/{url_to_project}/custom_components/:$PYTHONPATH
+export PYTHONPATH={url_to_project}/custom_components/:$PYTHONPATH
 
 ## Start bot
 rasa run --cors "*" --debug --enable-api -p 5005
