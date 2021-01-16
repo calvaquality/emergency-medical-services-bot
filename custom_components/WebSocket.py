@@ -36,6 +36,12 @@ class SocketIOOutput(OutputChannel):
     def name(cls):
         return "socketio"
 
+    @staticmethod
+    def convert_text_to_speech(sentence: Text, out_file_path: Text):
+        text_to_speech = gTTS(text=sentence, lang='en')
+        text_to_speech.save(out_file_path)
+        return out_file_path
+
     def __init__(self, sio, sid, bot_message_evt, message):
         self.sio = sio
         self.sid = sid
@@ -49,14 +55,15 @@ class SocketIOOutput(OutputChannel):
         out_file = str(ts) + '.wav'
         link = "http://localhost:8888/" + out_file
 
-        self.convert_text_to_speech((response['text'], out_file))
+        print('[BOT MESSAGE] ' + response['text'])
+        self.convert_text_to_speech(response['text'], out_file)
 
         await self.sio.emit(self.bot_message_evt, {'text': response['text'], "link": link}, room=socket_id)
 
-    def convert_text_to_speech(self, sentence, out_file_path):
-        text_to_speech = gTTS(text=sentence, lang='en')
-        text_to_speech.save(out_file_path)
-        return out_file_path
+    async def send_text_message(self, recipient_id: Text, message: Text, **kwargs: Any) -> None:
+        """Send a message through this channel."""
+
+        await self._send_audio_message(self.sid, {"text": message})
 
 
 class SocketIOInput(InputChannel):
@@ -88,8 +95,8 @@ class SocketIOInput(InputChannel):
         self.user_message_evt = user_message_evt
         self.namespace = namespace
         self.socketio_path = socketio_path
-        self.speech_to_text_model = Model('../stt/deepspeech-0.9.1-models.pbmm')
-        self.speech_to_text_model.enableExternalScorer('../stt/deepspeech-0.9.1-models.scorer')
+        self.speech_to_text_model = Model('stt/deepspeech-0.9.1-models.pbmm')
+        self.speech_to_text_model.enableExternalScorer('stt/deepspeech-0.9.1-models.scorer')
 
     def blueprint(self, on_new_message):
         sio = AsyncServer(async_mode="sanic", logger=True, cors_allowed_origins='*')
@@ -103,29 +110,28 @@ class SocketIOInput(InputChannel):
 
         @sio.on('connect')
         async def connect(sid, environ):
-            logger.debug("User {} connected to socketIO endpoint.".format(sid))
-            print('Connected!')
+            print("User {} connected to socketIO endpoint.".format(sid))
 
         @sio.on('disconnect')
         async def disconnect(sid):
-            logger.debug("User {} disconnected from socketIO endpoint."
-                         "".format(sid))
+            print("User {} disconnected from socketIO endpoint."
+                  "".format(sid))
 
         @sio.on('session_request')
         async def session_request(sid, data):
-            print('This is sessioin request')
+            print('Session request received')
 
             if data is None:
                 data = {}
             if 'session_id' not in data or data['session_id'] is None:
                 data['session_id'] = uuid.uuid4().hex
             await sio.emit("session_confirm", data['session_id'], room=sid)
-            logger.debug("User {} connected to socketIO endpoint."
-                         "".format(sid))
+            print("User {} connected to socketIO endpoint."
+                  "".format(sid))
 
         @sio.on('user_uttered')
         async def handle_message(sid, data):
-
+            print('User uttered')
             output_channel = SocketIOOutput(sio, sid, self.bot_message_evt, data['message'])
             if data['message'] == "/get_started":
                 message = data['message']
