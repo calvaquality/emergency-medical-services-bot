@@ -11,8 +11,8 @@ curl -LO https://github.com/mozilla/DeepSpeech/releases/download/v0.9.1/deepspee
 
 ## Move them to stt folder
 
-mv deepspeech-0.9.1-models.scorer st/
-mv deepspeech-0.9.1-models.pbmm st/
+mv deepspeech-0.9.1-models.scorer stt/
+mv deepspeech-0.9.1-models.pbmm stt/
 
 ## Train model
 rasa train
