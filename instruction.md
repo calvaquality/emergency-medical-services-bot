@@ -7,6 +7,6 @@ curl -LO https://github.com/mozilla/DeepSpeech/releases/download/v0.9.1/deepspee
 export PYTHONPATH=/Users/{your_home_folder}/{url_to_project}/custom_components/:$PYTHONPATH
 
 ## Start bot
-rasa run --cors "*" --enable-api -p 5005
+rasa run --cors "*" --debug --enable-api -p 5005
 python3 -m http.server 8888
 

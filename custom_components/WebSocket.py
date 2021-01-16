@@ -82,7 +82,7 @@ class SocketIOInput(InputChannel):
         self.socketio_path = socketio_path
 
     def blueprint(self, on_new_message):
-        sio = AsyncServer(async_mode="sanic")
+        sio = AsyncServer(async_mode="sanic", logger=True, cors_allowed_origins='*')
         socketio_webhook = SocketBlueprint(
             sio, self.socketio_path, "socketio_webhook", __name__
         )
@@ -91,17 +91,17 @@ class SocketIOInput(InputChannel):
         async def health(request):
             return response.json({"status": "ok"})
 
-        @sio.on('connect', namespace=self.namespace)
+        @sio.on('connect')
         async def connect(sid, environ):
             logger.debug("User {} connected to socketIO endpoint.".format(sid))
             print('Connected!')
 
-        @sio.on('disconnect', namespace=self.namespace)
+        @sio.on('disconnect')
         async def disconnect(sid):
             logger.debug("User {} disconnected from socketIO endpoint."
                          "".format(sid))
 
-        @sio.on('session_request', namespace=self.namespace)
+        @sio.on('session_request')
         async def session_request(sid, data):
             print('This is sessioin request')
 
@@ -113,7 +113,7 @@ class SocketIOInput(InputChannel):
             logger.debug("User {} connected to socketIO endpoint."
                          "".format(sid))
 
-        @sio.on('user_uttered', namespace=self.namespace)
+        @sio.on('user_uttered')
         async def handle_message(sid, data):
 
             output_channel = SocketIOOutput(sio, sid, self.bot_message_evt, data['message'])
