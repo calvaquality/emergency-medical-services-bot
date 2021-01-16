@@ -1,6 +1,7 @@
-rasa
-deepspeech
-sounddevice
-scipy
-gTTS
-sanic
+rasa~=2.1.0
+deepspeech~=0.9.1
+sounddevice~=0.4.1
+scipy~=1.5.4
+gTTS~=2.2.1
+sanic~=20.9.1
+numpy~=1.17.0
