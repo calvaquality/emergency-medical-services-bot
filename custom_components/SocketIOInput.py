@@ -11,8 +11,8 @@ from rasa.core.channels.channel import UserMessage
 from sanic import response
 from socketio import AsyncServer
 
-from connector.SocketBlueprint import SocketBlueprint
-from connector.SocketIOOutput import SocketIOOutput
+from custom_components.SocketBlueprint import SocketBlueprint
+from custom_components.SocketIOOutput import SocketIOOutput
 
 
 class SocketIOInput(InputChannel):
@@ -49,7 +49,7 @@ class SocketIOInput(InputChannel):
         self.speech_to_text_model.enableExternalScorer('stt/deepspeech-0.9.1-models.scorer')
 
     def blueprint(self, on_new_message):
-        sio = AsyncServer(async_mode="sanic")
+        sio = AsyncServer(async_mode="sanic", cors_allowed_origins='*')
         socketio_webhook = SocketBlueprint(
             sio, self.socketio_path, "socketio_webhook", __name__
         )
