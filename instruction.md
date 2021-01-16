@@ -1,5 +1,12 @@
+## Download Speech-to-Text models
+
 curl -LO https://github.com/mozilla/DeepSpeech/releases/download/v0.9.1/deepspeech-0.9.1-models.scorer
 curl -LO https://github.com/mozilla/DeepSpeech/releases/download/v0.9.1/deepspeech-0.9.1-models.pbmm
+
+## Move them to stt folder
+
+mv deepspeech-0.9.1-models.scorer st/
+mv deepspeech-0.9.1-models.pbmm st/
 
 
 ## Append PYTHONPATH env variable with your custom Connector
