@@ -8,15 +8,13 @@ from urllib import request
 
 import numpy
 from deepspeech import Model
+from gtts import gTTS
 from rasa.core.channels.channel import InputChannel
 from rasa.core.channels.channel import OutputChannel
 from rasa.core.channels.channel import UserMessage
 from sanic import Blueprint
 from sanic import response
 from socketio import AsyncServer
-
-from custom_components.SocketBlueprint import SocketBlueprint
-from custom_components.SocketIOOutput import SocketIOOutput
 
 logger = logging.getLogger(__name__)
 
@@ -44,20 +42,21 @@ class SocketIOOutput(OutputChannel):
         self.bot_message_evt = bot_message_evt
         self.message = message
 
-    async def _send_audio_message(self, socket_id, response, **kwargs: Any):
-        # type: (Text, Any) -> None
+    async def _send_audio_message(self, socket_id: Text, response: Any, **kwargs: Any) -> None:
         """Sends a message to the recipient using the bot event."""
 
         ts = time.time()
-        OUT_FILE = str(ts) + '.wav'
-        link = "http://localhost:8888/" + OUT_FILE
+        out_file = str(ts) + '.wav'
+        link = "http://localhost:8888/" + out_file
 
-        await self.sio.emit(self.bot_message_evt, {'text': 'Hello World', "link": link}, room=socket_id)
+        self.convert_text_to_speech((response['text'], out_file))
 
-    async def send_text_message(self, recipient_id: Text, message: Text, **kwargs: Any) -> None:
-        """Send a message through this channel."""
+        await self.sio.emit(self.bot_message_evt, {'text': response['text'], "link": link}, room=socket_id)
 
-        await self._send_audio_message(self.sid, {"text": message})
+    def convert_text_to_speech(self, sentence, out_file_path):
+        text_to_speech = gTTS(text=sentence, lang='en')
+        text_to_speech.save(out_file_path)
+        return out_file_path
 
 
 class SocketIOInput(InputChannel):
