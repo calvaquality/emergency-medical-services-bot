@@ -8,6 +8,5 @@ export PYTHONPATH=/Users/{your_home_folder}/{url_to_project}/custom_components/:
 
 ## Start bot
 rasa run --enable-api -p 5005
-rasa run actions --actions demo.actions
 python3 -m http.server 8888
 
