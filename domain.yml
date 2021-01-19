@@ -59,24 +59,24 @@ responses:
   utter_ask_injuries_amount:
     - text: What is the number of injured people?
   utter_submit_accident_form:
-    - text: 'Thank you for contact. We will send an ambulance right now. I got following data from you:  accident place is {accident_place}. Damage severity is {damage_severity}. There are {injuries_amount} injured people.  Your name is {notifier_name}'
+    - text: 'Thank you for contact. We will send an ambulance right now. I got following data from you: Accident place {accident_place}. Injured people: {injuries_amount}, their damages: {damage_severity}. Your name is {notifier_name}'
 actions:
   - utter_submit_accident_form
 forms:
   accident_form:
+    accident_place:
+      - type: from_text
+        entity: accident_place
+        intent: inform_about_accident_place
     injuries_amount:
-      - type: from_entity
+      - type: from_text
         entity: injuries_amount
         intent: inform_about_injured_amount
     damage_severity:
-      - type: from_entity
+      - type: from_text
         entity: damage_severity
         intent: inform_about_damage_severity
     notifier_name:
-      - type: from_entity
+      - type: from_text
         entity: notifier_name
         intent: inform_about_notifier_name
-    accident_place:
-      - type: from_entity
-        entity: accident_place
-        intent: inform_about_accident_place
