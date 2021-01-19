@@ -1,13 +1,18 @@
 version: "2.0"
 
 rules:
+  - rule: Activate accident form
+    steps:
+      - intent: inform_about_accident
+      - action: accident_form
+      - active_loop: accident_form
 
-#- rule: Say goodbye anytime the user says goodbye
-#  steps:
-#  - intent: goodbye
-#  - action: utter_goodbye
-#
-#- rule: Say 'I am a bot' anytime the user challenges
-#  steps:
-#  - intent: bot_challenge
-#  - action: utter_iamabot
+  - rule: Submit form
+    condition:
+      # Condition that form is active.
+      - active_loop: accident_form
+    steps:
+      - action: accident_form
+      - active_loop: null
+      # The action we want to run when the form is submitted.
+      - action: utter_submit_accident_form
