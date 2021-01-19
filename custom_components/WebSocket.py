@@ -52,7 +52,7 @@ class SocketIOOutput(OutputChannel):
         """Sends a message to the recipient using the bot event."""
 
         ts = time.time()
-        out_file = str(ts) + '.wav'
+        out_file = 'output_' + str(ts) + '.wav'
         link = "http://localhost:8888/" + out_file
 
         print('[BOT MESSAGE] ' + response['text'])
@@ -137,7 +137,7 @@ class SocketIOInput(InputChannel):
                 message = data['message']
             else:
                 ##receive audio
-                received_file = 'output_' + sid + '.wav'
+                received_file = 'input_' + sid + '.wav'
 
                 request.urlretrieve(data['message'], received_file)
 
