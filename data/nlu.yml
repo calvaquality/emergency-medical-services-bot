@@ -112,10 +112,12 @@ nlu:
       - Please send an ambulence fast to [801 Brickell Ave, Miami](accident_place), FL 33131, United States
   - intent: inform_about_injured_amount
     examples: |
-      - Two cars crashed and there are [4 injured people](injuries_amount) stucked in cars
-      - There was street fight and about [14 people](injuries_amount) are hurt
-      - [One man](injuries_amount) got shot and he's bleeding
-      - [One man](injuries_amount) has been stabbed and he's not breathing
+      - Two cars crashed and there are [four injured people](injuries_amount) stucked in cars
+      - There was street fight and about [fourteen people](injuries_amount) are hurt
+      - Only [two people](injuries_amount) are hurt in this accident
+      - In general [six guys](injuries_amount) were taking part in this situation
+      - [Two man](injuries_amount) got shot and he's bleeding
+      - [Some man](injuries_amount) has been stabbed and he's not breathing
       - [My baby](injuries_amount) has a high fever and I don't know what to do
       - [My grandfather](injuries_amount) has had a heart attack and he needs a help
   - intent: inform_about_damage_severity
