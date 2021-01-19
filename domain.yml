@@ -64,6 +64,8 @@ responses:
     - text: What is the damage severity?
   utter_ask_injuries_amount:
     - text: What is the number of injured people?
+  utter_submit_accident_form:
+    - text: Thank you for contact. We will send an ambulance right now
 
 forms:
   accident_form:
