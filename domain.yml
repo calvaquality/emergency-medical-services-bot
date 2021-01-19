@@ -1,5 +1,13 @@
 version: '2.0'
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
 intents:
+  - inform_about_accident
+  - inform_about_accident_place
+  - inform_about_damage_severity
+  - inform_about_notifier_name
+  - inform_about_injured_amount
   - greet
   - goodbye
   - affirm
@@ -8,36 +16,30 @@ intents:
   - inform
   - out_of_scope
   - thankyou
-  - inform_about_accident
-  - inform_about_accident_place
-  - inform_about_injured_amount
-  - inform_about_damage_severity
-  - inform_about_notifier_name
-
+entities:
+  - accident_place
+  - damage_severity
+  - injuries_amount
+  - notifier_name
 slots:
-  injuries_amount:
+  accident_place:
     type: text
     influence_conversation: false
   damage_severity:
     type: text
     influence_conversation: false
+  injuries_amount:
+    type: text
+    influence_conversation: false
   notifier_name:
     type: text
     influence_conversation: false
-  accident_place:
+  requested_slot:
     type: text
     influence_conversation: false
-
-entities:
-  - injuries_amount
-  - damage_severity
-  - notifier_name
-  - accident_place
-
-
 responses:
   utter_greet:
-    - text: "Hello, Emergency Medical Services here, how can I help you, sir?"
+    - text: Hello, Emergency Medical Services here, how can I help you, sir?
   utter_did_that_help:
     - text: Did that help you?
   utter_happy:
@@ -56,7 +58,8 @@ responses:
     - text: What is the number of injured people?
   utter_submit_accident_form:
     - text: Thank you for contact. We will send an ambulance right now
-
+actions:
+  - utter_submit_accident_form
 forms:
   accident_form:
     injuries_amount:
@@ -75,7 +78,3 @@ forms:
       - type: from_entity
         entity: accident_place
         intent: inform_about_accident_place
-
-session_config:
-  session_expiration_time: 60
-  carry_over_slots_to_new_session: true
