@@ -5,7 +5,12 @@ stories:
       - intent: greet
       - action: utter_greet
       - intent: inform_about_accident
-      - action: health_form
-      - active_loop: health_form
+      - action: accident_form
+      - active_loop: accident_form
       - intent: goodbye
       - action: utter_goodbye
+  - story: inform about accident - short path
+    steps:
+      - intent: inform_about_accident
+      - action: accident_form
+      - active_loop: accident_form
