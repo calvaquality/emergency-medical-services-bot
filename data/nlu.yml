@@ -104,6 +104,9 @@ nlu:
       - Hello, the accident took place
       - Hi, my grandfather needs help!
       - hello, I had an accident
+      - Hi, I need help
+      - need help
+      - help
   - intent: inform_about_accident_place
     examples: |
       - Whole situation took place in [Washington on 10th Street NW near the Hana Market](accident_place)
@@ -112,6 +115,7 @@ nlu:
       - Get in as fast as possible to [San Jose, 330 W Hedding Street](accident_place)
       - Please send an ambulence fast to [801 Brickell Ave, Miami](accident_place), FL 33131, United States
       - Accident took place in [Warsaw, near the Wolska Street 75](accident_place)
+      - Send an amublance to [Towarowa Street 85 in Warsaw city](accident_place)
   - intent: inform_about_injured_amount
     examples: |
       - Two cars crashed and there are [four](injuries_amount) injured people stucked in cars
@@ -130,9 +134,18 @@ nlu:
       - I assume that injured [has a concussion](damage_severity)
       - Two people [have broken legs, one woman doesn't breathe](damage_severity)
       - These people [have broken arms and ribs](damage_severity)
+      - Two people [cannot breathe normally](damage_severity)
+      - have [wristed ankle](damage_severity)
+      - she has [no breath](damage_severity)
+      - he has [pain in a chest](damage_severity)
   - intent: inform_about_notifier_name
     examples: |
       - My name is [Jessica Mercedes](notifier_name)
       - I am [Curt Jackson](notifier_name)
-      - I'm [Harold Ford]((notifier_name)
+      - I am [Rogelio Cherry](notifier_name)
+      - I'm [Harold Ford](notifier_name)
+      - My name is [Benjamin Barker](notifier_name)
       - My name is [Michal Rusiecki](notifier_name)
+      - My name's [Killian Ortiz](notifier_name)
+      - [Monica Jefferson](notifier_name) is speaking right now
+      - [Tracis Spencer](notifier_name) is on the line
