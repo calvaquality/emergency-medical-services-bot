@@ -34,9 +34,6 @@ slots:
   notifier_name:
     type: text
     influence_conversation: false
-  requested_slot:
-    type: text
-    influence_conversation: false
 responses:
   utter_greet:
     - text: Hello, Emergency Medical Services here, how can I help you, sir?
@@ -57,7 +54,9 @@ responses:
   utter_ask_injuries_amount:
     - text: What is the number of injured people?
   utter_submit_accident_form:
-    - text: Thank you for contact. We will send an ambulance right now
+    - text: "Thank you for contact. We will send an ambulance right now. I got following data from you: \n
+            accident place is {accident_place}. Damage severity is {damage_severity}. There are {injuries_amount} injured people. \n
+            Your name is {notifier_name}"
 actions:
   - utter_submit_accident_form
 forms:
