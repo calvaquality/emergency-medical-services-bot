@@ -10,6 +10,18 @@ stories:
       - intent: affirm
       - action: utter_happy
 
+  - story: inform about accident
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: inform_about_accident
+      - action: utter_ask_about_accident
+      - intent: inform_about_injured_amount
+      - action: utter_ask_about_accident_place
+      - intent: inform_about_accident_place
+      - action: utter_ask_about_actual_injured_state
+      - intent: inform_about_damage_severity
+      - action: utter_about_your_data
   #  - story: survey stop
   #    steps:
   #      - intent: greet
@@ -51,16 +63,3 @@ stories:
   #      - active_loop: health_form
   #      - active_loop: null
   #      - action: utter_goodbye
-
-  - story: inform about accident
-    steps:
-      - intent: greet
-      - action: utter_greet
-      - intent: inform_about_accident
-      - action: utter_ask_about_accident
-      - intent: inform_about_accident_details
-      - action: utter_ask_about_accident_place
-      - intent: inform_about_accident_place
-      - action: utter_ask_about_actual_injured_state
-      - intent: inform_about_actual_injured_state
-      - action: utter_about_your_data
