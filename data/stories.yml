@@ -14,3 +14,38 @@ stories:
       - intent: inform_about_accident
       - action: accident_form
       - active_loop: accident_form
+  - story: interactive_story_1
+    steps:
+      - intent: inform_about_accident
+      - action: accident_form
+      - active_loop: accident_form
+      - slot_was_set:
+          - requested_slot: injuries_amount
+      - slot_was_set:
+          - injuries_amount: two people
+      - slot_was_set:
+          - injuries_amount: two people
+      - slot_was_set:
+          - requested_slot: damage_severity
+      - slot_was_set:
+          - damage_severity: have broken arms and legs
+      - slot_was_set:
+          - damage_severity: have broken arms and legs
+      - slot_was_set:
+          - requested_slot: notifier_name
+      - slot_was_set:
+          - notifier_name: Stanislaw Goklita
+      - slot_was_set:
+          - notifier_name: Stanislaw Goklita
+      - slot_was_set:
+          - requested_slot: accident_place
+      - slot_was_set:
+          - accident_place: near the Zbygniewa Street
+      - slot_was_set:
+          - accident_place:
+              - Warsaw
+              - near the Zbygniewa Street
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - action: utter_submit_accident_form
