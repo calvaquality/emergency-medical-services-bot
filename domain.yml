@@ -1,7 +1,4 @@
 version: '2.0'
-session_config:
-  session_expiration_time: 60
-  carry_over_slots_to_new_session: true
 intents:
   - greet
   - goodbye
@@ -19,17 +16,23 @@ intents:
 
 slots:
   injuries_amount:
-    type: unfeaturized
+    type: text
+    influence_conversation: false
   damage_severity:
-    type: unfeaturized
+    type: text
+    influence_conversation: false
   notifier_name:
-    type: unfeaturized
+    type: text
+    influence_conversation: false
   notifier_phone_number:
-    type: unfeaturized
+    type: text
+    influence_conversation: false
   damage_type:
-    type: unfeaturized
+    type: text
+    influence_conversation: false
   accident_place:
-    type: unfeaturized
+    type: text
+    influence_conversation: false
 
 entities:
   - injuries_amount
@@ -63,20 +66,24 @@ responses:
     - text: What is the number of injured people?
 
 forms:
-  - health_form:
-      injuries_amount:
-        - type: from_entity
-          entity: injuries_amount
-          intent: inform_about_injured_amount
-      damage_severity:
-        - type: from_entity
-          entity: damage_severity
-          intent: inform_about_damage_severity
-      notifier_name:
-        - type: from_entity
-          entity: notifier_name
-          intent: inform_about_notifier_name
-      accident_place:
-        - type: from_entity
-          entity: accident_place
-          intent: inform_about_accident_place
+  health_form:
+    injuries_amount:
+      - type: from_entity
+        entity: injuries_amount
+        intent: inform_about_injured_amount
+    damage_severity:
+      - type: from_entity
+        entity: damage_severity
+        intent: inform_about_damage_severity
+    notifier_name:
+      - type: from_entity
+        entity: notifier_name
+        intent: inform_about_notifier_name
+    accident_place:
+      - type: from_entity
+        entity: accident_place
+        intent: inform_about_accident_place
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

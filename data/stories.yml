@@ -1,65 +1,11 @@
 version: "2.0"
 stories:
-  - story: sad path 1
-    steps:
-      - intent: greet
-      - action: utter_greet
-      - intent: mood_unhappy
-      - action: utter_cheer_up
-      - action: utter_did_that_help
-      - intent: affirm
-      - action: utter_happy
-
   - story: inform about accident
     steps:
       - intent: greet
       - action: utter_greet
       - intent: inform_about_accident
-      - action: utter_ask_about_accident
-      - intent: inform_about_injured_amount
-      - action: utter_ask_about_accident_place
-      - intent: inform_about_accident_place
-      - action: utter_ask_about_actual_injured_state
-      - intent: inform_about_damage_severity
-      - action: utter_about_your_data
-  #  - story: survey stop
-  #    steps:
-  #      - intent: greet
-  #      - action: utter_great
-  #      - intent: affirm
-  #      - action: health_form
-  #      - active_loop: health_form
-  #      - intent: out_of_scope
-  #      - action: utter_ask_continue
-  #      - intent: deny
-  #      - action: action_deactivate_form
-  #      - active_loop: null
-  #      - action: utter_goodbye
-  #
-  #  - story: survey continue
-  #    steps:
-  #      - intent: greet
-  #      - action: utter_great
-  #      - intent: affirm
-  #      - action: health_form
-  #      - active_loop: health_form
-  #      - intent: out_of_scope
-  #      - action: utter_ask_continue
-  #      - intent: affirm
-  #      - active_loop: health_form
-  #      - active_loop: null
-  #      - action: utter_goodbye
-  #
-  #
-  #
-  #  - story: ask health questions form
-  #    steps:
-  #      - intent: greet
-  #      - action: utter_greet
-  #      - intent: affirm
-  #      - active_loop: health_form
-  #      - intent: ask_exercise
-  #      - action: utter_exercise_info
-  #      - active_loop: health_form
-  #      - active_loop: null
-  #      - action: utter_goodbye
+      - action: health_form
+      - active_loop: health_form
+      - intent: goodbye
+      - action: utter_goodbye
