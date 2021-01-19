@@ -24,12 +24,6 @@ slots:
   notifier_name:
     type: text
     influence_conversation: false
-  notifier_phone_number:
-    type: text
-    influence_conversation: false
-  damage_type:
-    type: text
-    influence_conversation: false
   accident_place:
     type: text
     influence_conversation: false
@@ -54,11 +48,7 @@ responses:
     - text: I am a bot, powered by Rasa.
   utter_ask_accident_place:
     - text: Where accident took place?
-  utter_ask_damage_type:
-    - text: What are the damages to injured people?
-  utter_ask_notifier_phone_number:
-    - text: What is your phone number?
-  utter_ask_notifier_notifier_name:
+  utter_ask_notifier_name:
     - text: What is your first and last name?
   utter_ask_damage_severity:
     - text: What is the damage severity?
