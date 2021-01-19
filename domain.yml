@@ -50,6 +50,8 @@ responses:
     - text: I am a bot, powered by Rasa.
   utter_ask_accident_place:
     - text: Where accident took place?
+  utter_default:
+    - text: Sorry I didn't get that. Can you rephrase?
   utter_ask_notifier_name:
     - text: What is your first and last name?
   utter_ask_damage_severity:
