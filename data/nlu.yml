@@ -69,27 +69,8 @@ nlu:
       - could have been better
       - not great
       - nope
-  - intent: inform
-      - a full [8 hours] (sleep)
-      - only [four hours] (sleep)
-      - about [6 hours] (sleep)
-      - [low] (stress)
-      - [medium] (stress)
-      - [high] (stress)
-      - Yes, I went for a [run](exercise)
-      - Be more patient with my family
-      - Try to be a better friend
-      - Make sure to eat better tomorrow
-      - Eat less junk food
-      - Eat better
-      - Don't procrastinate
-      - Go to bed earlier
-      - I ate salad
-      - Too many snacks
-      - Too many sweets
-      - Too much junk food
-
   - intent: out_of_scope
+    examples: |
       - that's not what I want to do
       - wait stop
       - you are no help
@@ -122,28 +103,59 @@ nlu:
       - Can yo help me? Crash happened
       - Hello, the accident took place
       - Hi, my grandfather needs help!
+      - hello, I had an accident
+      - Hi, I need help
+      - need help
+      - help
+      - hello, I had a terrible accident
+      - hello, i just spotted accident
   - intent: inform_about_accident_place
     examples: |
-      - Whole situation took place in Washington on 10th Street NW near the Hana Market
-      - Accident happened in New Queens, New York, on the crossroads Jewel Ave and Parsons Bivid near Local Union 3 IBEW
-      - Please arrive to Richmond on Riverside Dr Street, accident took place near 5008th building
-      - Get in as fast as possible to San Jose, 330 W Hedding Street
-      - Please send an ambulence fast to 801 Brickell Ave, Miami, FL 33131, United States
-  - intent: inform_about_accident_details
+      - Whole situation took place in [Washington on 10th Street NW near the Hana Market](accident_place)
+      - Accident happened in [New Queens, New York, on the crossroads Jewel Ave and Parsons Bivid near Local Union 3](accident_place) IBEW
+      - Please arrive to [Richmond on Riverside Dr Street, accident took place near 5008th building](accident_place)
+      - Get in as fast as possible to [San Jose, 330 W Hedding Street](accident_place)
+      - Please send an ambulence fast to [801 Brickell Ave, Miami](accident_place), FL 33131, United States
+      - Accident took place in [Warsaw, near the Wolska Street 75](accident_place)
+      - Send an amublance to [Towarowa Street 85 in Warsaw city](accident_place)
+      - In [Warsaw](accident_place), [near the Zbygniewa Street](accident_place)
+      - it happened [near](accident_place) the bank which is located [on Zygmunta](accident_place) Augusta [street](accident_place) in [Warsaw](accident_place)
+  - intent: inform_about_injured_amount
     examples: |
-      - Two cars crashed and there are 4 injured people stucked in cars
-      - Man got shot and he's bleeding
-      - Man has been stabbed and he's not breathing
-      - My baby has a high fever and I don't know what to do
-      - My grandfather has had a heart attack and he needs a help
-  - intent: inform_about_actual_injured_state
+      - Two cars crashed and there are [four](injuries_amount) injured people stucked in cars
+      - There was street fight and about [fourteen](injuries_amount) people are hurt
+      - Only [two](injuries_amount) people are hurt in this accident
+      - In general [six](injuries_amount) guys were taking part in this situation
+      - [Two](injuries_amount) man got shot and he's bleeding
+      - [Some](injuries_amount) man has been stabbed and he's not breathing
+      - [One](injuries_amount) baby has a high fever and I don't know what to do
+      - [My grandfather](injuries_amount) has had a heart attack and he needs a help
+      - There are [fourteen](injuries_amount) people injured
+      - There are [two people](injuries_amount) hurt in car accident
+      - I think there are [three people](injuries_amount) hurt
+  - intent: inform_about_damage_severity
     examples: |
-      - He has a 39 degress of temperature
-      - Man has his arm cut deeply
-      - I assume that injured has a concussion
-      - Two people have broken legs, one woman doesn't breathe
-  - intent: inform_about_your_data
+      - He has a [39 degress of temperature](damage_severity)
+      - Man has his [arm cut deeply](damage_severity)
+      - I assume that injured [has a concussion](damage_severity)
+      - Two people [have broken legs, one woman doesn't breathe](damage_severity)
+      - These people [have broken arms and ribs](damage_severity)
+      - Two people [cannot breathe normally](damage_severity)
+      - have [wristed ankle](damage_severity)
+      - she has [no breath](damage_severity)
+      - he has [pain in a chest](damage_severity)
+      - Not fatal, they [have broken arms and legs](damage_severity)
+      - They are heavily [bleeding](damage_severity)
+  - intent: inform_about_notifier_name
     examples: |
-      - My name is Jessica Mercedes, my phone number is 48 123 123 123
-      - I am Curt Jackson, my phone number: 345 567 789
-      - I'm Harold Ford, I am calling from number 123 123 123, this is my phone number
+      - My name is [Jessica Mercedes](notifier_name)
+      - I am [Curt Jackson](notifier_name)
+      - I am [Rogelio Cherry](notifier_name)
+      - I'm [Harold Ford](notifier_name)
+      - My name is [Benjamin Barker](notifier_name)
+      - My name is [Michal Rusiecki](notifier_name)
+      - My name's [Killian Ortiz](notifier_name)
+      - [Monica Jefferson](notifier_name) is speaking right now
+      - [Tracis Spencer](notifier_name) is on the line
+      - My name is [Stanislaw Goklita](notifier_name)
+      - My name is [Franciszek](notifier_name) Ksawery [Branicki](notifier_name)

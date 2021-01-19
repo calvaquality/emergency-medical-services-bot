@@ -1,66 +1,51 @@
 version: "2.0"
 stories:
-  - story: sad path 1
-    steps:
-      - intent: greet
-      - action: utter_greet
-      - intent: mood_unhappy
-      - action: utter_cheer_up
-      - action: utter_did_that_help
-      - intent: affirm
-      - action: utter_happy
-
-  #  - story: survey stop
-  #    steps:
-  #      - intent: greet
-  #      - action: utter_great
-  #      - intent: affirm
-  #      - action: health_form
-  #      - active_loop: health_form
-  #      - intent: out_of_scope
-  #      - action: utter_ask_continue
-  #      - intent: deny
-  #      - action: action_deactivate_form
-  #      - active_loop: null
-  #      - action: utter_goodbye
-  #
-  #  - story: survey continue
-  #    steps:
-  #      - intent: greet
-  #      - action: utter_great
-  #      - intent: affirm
-  #      - action: health_form
-  #      - active_loop: health_form
-  #      - intent: out_of_scope
-  #      - action: utter_ask_continue
-  #      - intent: affirm
-  #      - active_loop: health_form
-  #      - active_loop: null
-  #      - action: utter_goodbye
-  #
-  #
-  #
-  #  - story: ask health questions form
-  #    steps:
-  #      - intent: greet
-  #      - action: utter_greet
-  #      - intent: affirm
-  #      - active_loop: health_form
-  #      - intent: ask_exercise
-  #      - action: utter_exercise_info
-  #      - active_loop: health_form
-  #      - active_loop: null
-  #      - action: utter_goodbye
-
   - story: inform about accident
     steps:
       - intent: greet
       - action: utter_greet
       - intent: inform_about_accident
-      - action: utter_ask_about_accident
-      - intent: inform_about_accident_details
-      - action: utter_ask_about_accident_place
-      - intent: inform_about_accident_place
-      - action: utter_ask_about_actual_injured_state
-      - intent: inform_about_actual_injured_state
-      - action: utter_about_your_data
+      - action: accident_form
+      - active_loop: accident_form
+      - intent: goodbye
+      - action: utter_goodbye
+  - story: inform about accident - short path
+    steps:
+      - intent: inform_about_accident
+      - action: accident_form
+      - active_loop: accident_form
+  - story: interactive_story_1
+    steps:
+      - intent: inform_about_accident
+      - action: accident_form
+      - active_loop: accident_form
+      - slot_was_set:
+          - requested_slot: injuries_amount
+      - slot_was_set:
+          - injuries_amount: two people
+      - slot_was_set:
+          - injuries_amount: two people
+      - slot_was_set:
+          - requested_slot: damage_severity
+      - slot_was_set:
+          - damage_severity: have broken arms and legs
+      - slot_was_set:
+          - damage_severity: have broken arms and legs
+      - slot_was_set:
+          - requested_slot: notifier_name
+      - slot_was_set:
+          - notifier_name: Stanislaw Goklita
+      - slot_was_set:
+          - notifier_name: Stanislaw Goklita
+      - slot_was_set:
+          - requested_slot: accident_place
+      - slot_was_set:
+          - accident_place: near the Zbygniewa Street
+      - slot_was_set:
+          - accident_place:
+              - Warsaw
+              - near the Zbygniewa Street
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - action: utter_submit_accident_form
