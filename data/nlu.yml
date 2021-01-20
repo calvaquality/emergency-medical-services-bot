@@ -116,6 +116,7 @@ nlu:
       - Please arrive to [Richmond on Riverside Dr Street, accident took place near 5008th building](accident_place)
       - Get in as fast as possible to [San Jose, 330 W Hedding Street](accident_place)
       - Please send an ambulence fast to [801 Brickell Ave, Miami](accident_place), FL 33131, United States
+      - Please send an ambulence to [New Yersey, Oklahoma](accident_place), FL 33131, United States
       - Accident took place in [Warsaw, near the Wolska Street 75](accident_place)
       - Send an amublance to [Towarowa Street 85 in Warsaw city](accident_place)
       - In [Warsaw](accident_place), [near the Zbygniewa Street](accident_place)

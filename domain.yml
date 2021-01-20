@@ -1,7 +1,7 @@
 version: '2.0'
 session_config:
-  session_expiration_time: 60
-  carry_over_slots_to_new_session: true
+  session_expiration_time: 1
+  carry_over_slots_to_new_session: false
 intents:
   - inform_about_accident
   - inform_about_injured_amount
@@ -34,9 +34,6 @@ slots:
   notifier_name:
     type: text
     influence_conversation: false
-  requested_slot:
-    type: text
-    influence_conversation: false
 responses:
   utter_greet:
     - text: Hello, Emergency Medical Services here, how can I help you, sir?
@@ -59,7 +56,7 @@ responses:
   utter_ask_injuries_amount:
     - text: What is the number of injured people?
   utter_submit_accident_form:
-    - text: 'Thank you for contact. We will send an ambulance right now. I got following data from you: Accident place {accident_place}. Injured people: {injuries_amount}, their damages: {damage_severity}. Your name is {notifier_name}'
+    - text: 'Thank you for contact. We will send an ambulance right now. Hang on!'
 actions:
   - utter_submit_accident_form
 forms:

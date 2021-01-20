@@ -5,3 +5,4 @@ scipy~=1.5.4
 gTTS~=2.2.1
 sanic~=20.9.1
 numpy~=1.17.0
+mysql.connector

@@ -1,3 +1,4 @@
+import datetime
 import logging
 import time
 import uuid
@@ -6,6 +7,7 @@ from typing import Any
 from typing import Optional, Text
 from urllib import request
 
+import mysql.connector
 import numpy
 from deepspeech import Model
 from gtts import gTTS
@@ -28,6 +30,50 @@ class SocketBlueprint(Blueprint):
     def register(self, app, options):
         self.sio.attach(app, self.socketio_path)
         super(SocketBlueprint, self).register(app, options)
+
+
+def save_bot_message_to_database(message: Text, socket_id: Text):
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="user",
+        password="password",
+        database="db"
+    )
+
+    mycursor = mydb.cursor()
+
+    sql = "INSERT INTO conversation (conversation_id, message_time, bot_message, user_message) VALUES (%s, %s, %s, %s)"
+    ts = time.time()
+    timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+    val = (socket_id, timestamp, message, "")
+    mycursor.execute(sql, val)
+
+    mydb.commit()
+    print(mycursor.rowcount, "record inserted.")
+    mydb.close()
+    mycursor.close()
+
+
+def insert_user_message_to_database(message: Text, sid: Text):
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="user",
+        password="password",
+        database="db"
+    )
+
+    mycursor = mydb.cursor()
+
+    sql = "INSERT INTO conversation (conversation_id, message_time, bot_message, user_message) VALUES (%s, %s, %s, %s)"
+    ts = time.time()
+    timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+    val = (sid, timestamp, "", message)
+    mycursor.execute(sql, val)
+
+    mydb.commit()
+    print(mycursor.rowcount, "record inserted.")
+    mydb.close()
+    mycursor.close()
 
 
 class SocketIOOutput(OutputChannel):
@@ -56,6 +102,8 @@ class SocketIOOutput(OutputChannel):
         link = "http://localhost:8888/" + out_file
 
         print('[BOT MESSAGE] ' + response['text'])
+
+        save_bot_message_to_database(response['text'], socket_id)
         self.convert_text_to_speech(response['text'], out_file)
 
         await self.sio.emit(self.bot_message_evt, {'text': response['text'], "link": link}, room=socket_id)
@@ -147,6 +195,8 @@ class SocketIOInput(InputChannel):
                                                             numpy.int16)
                 input_audio_file.close()
                 message = self.speech_to_text_model.stt(converted_audio_to_bytes)
+
+                insert_user_message_to_database(message, sid)
 
                 await sio.emit(self.user_message_evt, {"text": message}, room=sid)
 
